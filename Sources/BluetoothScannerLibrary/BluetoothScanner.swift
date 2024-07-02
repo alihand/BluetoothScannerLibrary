@@ -8,8 +8,9 @@
 import Foundation
 import CoreBluetooth
 
-public protocol BluetoothScannerDelegate: AnyObject {
+@objc public protocol BluetoothScannerDelegate: AnyObject {
     func didDiscoverDevice(name: String, rssi: Int, timestamp: Date)
+    @objc optional func didCentralManagerUpdateState(_ central: CBCentralManager)
 }
 
 public class BluetoothScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
@@ -36,9 +37,7 @@ public class BluetoothScanner: NSObject, CBCentralManagerDelegate, CBPeripheralD
     }
 
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOn {
-            startScanning()
-        }
+        delegate?.didCentralManagerUpdateState?(central)
     }
 
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
