@@ -15,7 +15,7 @@ import CoreBluetooth
 
 public class BluetoothScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var centralManager: CBCentralManager?
-    private(set) public var isScanning = false
+    public var isScanning = false
     public weak var delegate: BluetoothScannerDelegate?
 
     public override init() {
